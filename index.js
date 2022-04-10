@@ -13,7 +13,9 @@ module.exports = () => {
             params: `(--${variant})`,
             nodes: rule.nodes.map(node =>
               node.clone({
-                selector: `${node.selector}\\@${variant}`,
+                selectors: node.selectors.map(
+                  selector => `${selector}\\@${variant}`
+                ),
               })
             ),
           });

@@ -29,3 +29,13 @@ it('supports multiple child nodes per at-rule', async () => {
     ].join(' ')
   );
 });
+
+it('supports multiple selectors per rule', async () => {
+  await run(
+    `@responsive { .bg-tomato, .tomato-bg { background: tomato; } }`,
+    [
+      `.bg-tomato, .tomato-bg { background: tomato; }`,
+      `@media (--sm) { .bg-tomato\\@sm, .tomato-bg\\@sm { background: tomato; } }`,
+    ].join(' ')
+  );
+});
