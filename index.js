@@ -7,25 +7,21 @@ module.exports = () => {
 
     AtRule: {
       responsive: (rule, { AtRule }) => {
-        rule.nodes.forEach(node => {
-          const responsiveRules = ['sm'].map(variant => {
-            const wrapper = new AtRule({
-              name: 'media',
-              params: `(--${variant})`,
-              nodes: [
-                node.clone({
-                  selector: `${node.selector}\\@${variant}`,
-                }),
-              ],
-            });
-
-            return wrapper;
+        const responsiveVariants = ['sm'].flatMap(variant => {
+          const wrapper = new AtRule({
+            name: 'media',
+            params: `(--${variant})`,
+            nodes: rule.nodes.map(node =>
+              node.clone({
+                selector: `${node.selector}\\@${variant}`,
+              })
+            ),
           });
 
-          node.after(responsiveRules);
+          return wrapper;
         });
 
-        rule.replaceWith(rule.nodes);
+        rule.replaceWith(...rule.nodes, ...responsiveVariants);
       },
     },
   };

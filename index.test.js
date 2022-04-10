@@ -19,3 +19,13 @@ it('replaces at-rule with media-query alternatives', async () => {
     ].join(' ')
   );
 });
+
+it('supports multiple child nodes per at-rule', async () => {
+  await run(
+    `@responsive { .bg-tomato { background: tomato; } .bg-coral { background: coral; } }`,
+    [
+      `.bg-tomato { background: tomato; } .bg-coral { background: coral; }`,
+      `@media (--sm) { .bg-tomato\\@sm { background: tomato; } .bg-coral\\@sm { background: coral; } }`,
+    ].join(' ')
+  );
+});
