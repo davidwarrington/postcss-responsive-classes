@@ -43,6 +43,18 @@ it('supports multiple selectors per rule', async () => {
   );
 });
 
+/**
+ * @note
+ * Consider raising a warning if no custom-media
+ * values are set but @responsive is still used
+ */
+it('creates no media query if there are no custom-media at-rules', async () => {
+  await run(
+    `@responsive { .bg-tomato { background: tomato; } }`,
+    `.bg-tomato { background: tomato; }`
+  );
+});
+
 it('creates one media query per custom-media at-rule', async () => {
   await run(
     `@custom-media --sm (min-width: 780px); @custom-media --md (min-width: 900px); @custom-media --lg (min-width: 1200px); @responsive { .bg-tomato { background: tomato; } }`,
