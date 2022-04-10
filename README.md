@@ -55,6 +55,8 @@
 
 ## Usage
 
+**NOTE**: This does not work, the plugin has not been published yet.
+
 **Step 1:** Install plugin:
 
 ```sh
