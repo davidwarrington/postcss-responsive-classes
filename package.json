@@ -2,7 +2,12 @@
   "name": "postcss-responsive-classes",
   "version": "0.0.0",
   "description": "PostCSS plugin for generating classes at multiple breakpoints",
-  "keywords": ["postcss", "css", "postcss-plugin", "postcss-responsive-classes"],
+  "keywords": [
+    "postcss",
+    "css",
+    "postcss-plugin",
+    "postcss-responsive-classes"
+  ],
   "scripts": {
     "test": "jest --coverage && eslint ."
   },
@@ -15,24 +20,15 @@
     "postcss": "^8.3.0"
   },
   "devDependencies": {
+    "@davidwarrington/eslint-config": "^1.0.0",
+    "@davidwarrington/prettier-config": "^1.0.0",
     "clean-publish": "^3.4.2",
-    "eslint": "^8.0.1",
-    "eslint-plugin-jest": "^25.2.2",
+    "eslint": "^8.13.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^26.1.4",
     "jest": "^27.3.1",
-    "postcss": "^8.3.11"
-  },
-  "eslintConfig": {
-    "parserOptions": {
-      "ecmaVersion": 2017
-    },
-    "env": {
-      "node": true,
-      "es6": true
-    },
-    "extends": ["eslint:recommended", "plugin:jest/recommended"],
-    "rules": {
-      "jest/expect-expect": "off"
-    }
+    "postcss": "^8.3.11",
+    "prettier": "^2.6.2"
   },
   "jest": {
     "coverageThreshold": {
