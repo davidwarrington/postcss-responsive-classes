@@ -1,31 +1,34 @@
 /**
  * @type {import('postcss').PluginCreator}
  */
-module.exports = (opts = {}) => {
-  // Work with options here
-
+module.exports = () => {
   return {
     postcssPlugin: 'postcss-responsive-classes',
-    /*
-    Root (root, postcss) {
-      // Transform CSS AST here
-    }
-    */
 
-    /*
-    Declaration (decl, postcss) {
-      // The faster way to find Declaration node
-    }
-    */
+    AtRule: {
+      responsive: (rule, { AtRule }) => {
+        rule.nodes.forEach(node => {
+          const responsiveRules = ['sm'].map(variant => {
+            const wrapper = new AtRule({
+              name: 'media',
+              params: `(--${variant})`,
+              nodes: [
+                node.clone({
+                  selector: `${node.selector}\\@${variant}`,
+                }),
+              ],
+            });
 
-    /*
-    Declaration: {
-      color: (decl, postcss) {
-        // The fastest way find Declaration node if you know property name
-      }
-    }
-    */
-  }
-}
+            return wrapper;
+          });
 
-module.exports.postcss = true
+          node.after(responsiveRules);
+        });
+
+        rule.replaceWith(rule.nodes);
+      },
+    },
+  };
+};
+
+module.exports.postcss = true;
