@@ -2,17 +2,54 @@
 
 [PostCSS] plugin for generating classes at multiple breakpoints.
 
-[PostCSS]: https://github.com/postcss/postcss
+[postcss]: https://github.com/postcss/postcss
 
 ```css
-.foo {
-  /* Input example */
+/* Input example */
+
+@custom-media --sm (min-width: 768px);
+@custom-media --md (min-width: 900px);
+
+@responsive {
+  .bg-tomato {
+    background: tomato;
+  }
+
+  .bg-coral {
+    background: coral;
+  }
 }
 ```
 
 ```css
-.foo {
-  /* Output example */
+/* Output example */
+
+.bg-tomato {
+  background: tomato;
+}
+
+.bg-coral {
+  background: coral;
+}
+
+@media (min-width: 768px) {
+  .bg-tomato\@sm {
+    background: tomato;
+  }
+
+  .bg-coral\@sm {
+    background: coral;
+  }
+}
+
+@media (min-width: 900px) {
+  .bg-tomato\@md {
+    background: tomato;
+  }
+
+  .bg-coral\@md {
+    background: coral;
+  }
 }
 ```
 
