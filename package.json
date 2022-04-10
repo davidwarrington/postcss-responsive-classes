@@ -9,7 +9,7 @@
     "postcss-responsive-classes"
   ],
   "scripts": {
-    "test": "jest --coverage && eslint ."
+    "test": "jest --coverage"
   },
   "license": "MIT",
   "repository": "davidwarrington/postcss-responsive-classes",
