@@ -28,6 +28,7 @@
     "eslint-plugin-jest": "^26.1.4",
     "jest": "^27.3.1",
     "postcss": "^8.3.11",
+    "postcss-custom-media": "^8.0.0",
     "prettier": "^2.6.2"
   },
   "jest": {

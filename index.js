@@ -7,8 +7,24 @@ module.exports = () => {
   return {
     postcssPlugin: 'postcss-responsive-classes',
 
-    AtRule: {
-      responsive: (rule, { AtRule }) => {
+    Once(root, { AtRule }) {
+      const customMediaRules = root.nodes.filter(
+        node => node.type === 'atrule' && node.name === 'custom-media'
+      );
+
+      customMediaRules.forEach(rule => {
+        const [name] = rule.params.split(' ');
+        const unprefixedName = name.replace(/^--/, '');
+
+        customMediaNames.push(unprefixedName);
+      });
+
+      /**
+       * @todo move back to `plugin.AtRule.responsive` once
+       * `postcss-custom-media` plugin is updated to use
+       * the postcss event api
+       */
+      root.walkAtRules('responsive', rule => {
         const responsiveVariants = customMediaNames.flatMap(variant => {
           const wrapper = new AtRule({
             name: 'media',
@@ -26,19 +42,6 @@ module.exports = () => {
         });
 
         rule.replaceWith(...rule.nodes, ...responsiveVariants);
-      },
-    },
-
-    Once(root) {
-      const customMediaRules = root.nodes.filter(
-        node => node.type === 'atrule' && node.name === 'custom-media'
-      );
-
-      customMediaRules.forEach(rule => {
-        const [name] = rule.params.split(' ');
-        const unprefixedName = name.replace(/^--/, '');
-
-        customMediaNames.push(unprefixedName);
       });
     },
   };

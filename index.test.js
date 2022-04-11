@@ -1,4 +1,5 @@
 const postcss = require('postcss');
+const postcssCustomMedia = require('postcss-custom-media');
 
 const plugin = require('.');
 
@@ -68,4 +69,19 @@ it('creates one media query per custom-media at-rule', async () => {
       `@media (--lg){ .bg-tomato\\@lg { background: tomato; } }`,
     ].join(' ')
   );
+});
+
+it('works alongside postcss-custom-media', async () => {
+  const input = `@custom-media --sm (min-width: 768px); @custom-media --md (min-width: 900px); @responsive { .bg-tomato { background: tomato; } }`;
+  const output = [
+    `.bg-tomato { background: tomato; }`,
+    `@media (min-width: 768px) { .bg-tomato\\@sm { background: tomato; } }`,
+    `@media (min-width: 900px) { .bg-tomato\\@md { background: tomato; } }`,
+  ].join(' ');
+
+  const result = await postcss([plugin, postcssCustomMedia]).process(input, {
+    from: undefined,
+  });
+  expect(result.css.trim()).toEqual(output.trim());
+  expect(result.warnings()).toHaveLength(0);
 });

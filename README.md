@@ -76,7 +76,7 @@ and set this plugin in settings.
 module.exports = {
   plugins: [
 +   require('postcss-responsive-classes'),
-    require('autoprefixer')
+    require('postcss-preset-env')
   ]
 }
 ```
