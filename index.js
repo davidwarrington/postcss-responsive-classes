@@ -7,7 +7,7 @@ module.exports = () => {
   return {
     postcssPlugin: 'postcss-responsive-classes',
 
-    Once(root, { AtRule }) {
+    Once(root, { AtRule, result }) {
       const customMediaRules = root.nodes.filter(
         node => node.type === 'atrule' && node.name === 'custom-media'
       );
@@ -25,6 +25,13 @@ module.exports = () => {
        * the postcss event api
        */
       root.walkAtRules('responsive', rule => {
+        if (customMediaNames.length === 0) {
+          rule.warn(
+            result,
+            'Unable to find any @custom-media values; @responsive will have no effect.'
+          );
+        }
+
         const responsiveVariants = customMediaNames.flatMap(variant => {
           const wrapper = new AtRule({
             name: 'media',

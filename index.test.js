@@ -44,15 +44,25 @@ it('supports multiple selectors per rule', async () => {
   );
 });
 
-/**
- * @note
- * Consider raising a warning if no custom-media
- * values are set but @responsive is still used
- */
 it('creates no media query if there are no custom-media at-rules', async () => {
-  await run(
-    `@responsive { .bg-tomato { background: tomato; } }`,
-    `.bg-tomato { background: tomato; }`
+  const input = `@responsive { .bg-tomato { background: tomato; } }`;
+  const output = `.bg-tomato { background: tomato; }`;
+
+  const result = await postcss([plugin, postcssCustomMedia]).process(input, {
+    from: undefined,
+  });
+  expect(result.css.trim()).toEqual(output.trim());
+});
+
+it('provides a warning if there are no @custom-media values', async () => {
+  const input = `@responsive { .bg-tomato { background: tomato; } }`;
+
+  const result = await postcss([plugin, postcssCustomMedia]).process(input, {
+    from: undefined,
+  });
+  expect(result.warnings().length).toEqual(1);
+  expect(result.warnings()[0].text).toEqual(
+    'Unable to find any @custom-media values; @responsive will have no effect.'
   );
 });
 
