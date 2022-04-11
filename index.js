@@ -9,7 +9,7 @@ function buildClassName(template, className, breakpoint) {
 /**
  * @type {import('postcss').PluginCreator}
  */
-module.exports = ({ className = '[class]\\@[breakpoint]' } = {}) => {
+module.exports = ({ className = '[breakpoint]\\:[class]' } = {}) => {
   const customMediaNames = [];
 
   return {

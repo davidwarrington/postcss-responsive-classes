@@ -33,21 +33,21 @@
 }
 
 @media (min-width: 768px) {
-  .bg-tomato\@sm {
+  .sm\:bg-tomato {
     background: tomato;
   }
 
-  .bg-coral\@sm {
+  .sm\:bg-coral {
     background: coral;
   }
 }
 
 @media (min-width: 900px) {
-  .bg-tomato\@md {
+  .md\:bg-tomato {
     background: tomato;
   }
 
-  .bg-coral\@md {
+  .md\:bg-coral {
     background: coral;
   }
 }

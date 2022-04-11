@@ -17,7 +17,7 @@ it('replaces at-rule with media-query alternatives', async () => {
     [
       `@custom-media --sm (min-width: 768px);`,
       `.bg-tomato { background: tomato; }`,
-      `@media (--sm){ .bg-tomato\\@sm { background: tomato; } }`,
+      `@media (--sm){ .sm\\:bg-tomato { background: tomato; } }`,
     ].join(' ')
   );
 });
@@ -28,7 +28,7 @@ it('supports multiple child nodes per at-rule', async () => {
     [
       `@custom-media --sm (min-width: 780px);`,
       `.bg-tomato { background: tomato; } .bg-coral { background: coral; }`,
-      `@media (--sm){ .bg-tomato\\@sm { background: tomato; } .bg-coral\\@sm { background: coral; } }`,
+      `@media (--sm){ .sm\\:bg-tomato { background: tomato; } .sm\\:bg-coral { background: coral; } }`,
     ].join(' ')
   );
 });
@@ -39,7 +39,7 @@ it('supports multiple selectors per rule', async () => {
     [
       `@custom-media --sm (min-width: 780px);`,
       `.bg-tomato, .tomato-bg { background: tomato; }`,
-      `@media (--sm){ .bg-tomato\\@sm, .tomato-bg\\@sm { background: tomato; } }`,
+      `@media (--sm){ .sm\\:bg-tomato, .sm\\:tomato-bg { background: tomato; } }`,
     ].join(' ')
   );
 });
@@ -74,9 +74,9 @@ it('creates one media query per custom-media at-rule', async () => {
       `@custom-media --md (min-width: 900px);`,
       `@custom-media --lg (min-width: 1200px);`,
       `.bg-tomato { background: tomato; }`,
-      `@media (--sm){ .bg-tomato\\@sm { background: tomato; } }`,
-      `@media (--md){ .bg-tomato\\@md { background: tomato; } }`,
-      `@media (--lg){ .bg-tomato\\@lg { background: tomato; } }`,
+      `@media (--sm){ .sm\\:bg-tomato { background: tomato; } }`,
+      `@media (--md){ .md\\:bg-tomato { background: tomato; } }`,
+      `@media (--lg){ .lg\\:bg-tomato { background: tomato; } }`,
     ].join(' ')
   );
 });
@@ -85,8 +85,8 @@ it('works alongside postcss-custom-media', async () => {
   const input = `@custom-media --sm (min-width: 768px); @custom-media --md (min-width: 900px); @responsive { .bg-tomato { background: tomato; } }`;
   const output = [
     `.bg-tomato { background: tomato; }`,
-    `@media (min-width: 768px) { .bg-tomato\\@sm { background: tomato; } }`,
-    `@media (min-width: 900px) { .bg-tomato\\@md { background: tomato; } }`,
+    `@media (min-width: 768px) { .sm\\:bg-tomato { background: tomato; } }`,
+    `@media (min-width: 900px) { .md\\:bg-tomato { background: tomato; } }`,
   ].join(' ');
 
   const result = await postcss([plugin, postcssCustomMedia]).process(input, {
@@ -102,10 +102,10 @@ it('supports a custom class naming format', async () => {
     [
       `@custom-media --sm (min-width: 780px);`,
       `.bg-tomato { background: tomato; }`,
-      `@media (--sm){ .sm:bg-tomato { background: tomato; } }`,
+      `@media (--sm){ .bg-tomato\\@sm { background: tomato; } }`,
     ].join(' '),
     {
-      className: '[breakpoint]:[class]',
+      className: '[class]\\@[breakpoint]',
     }
   );
 });
