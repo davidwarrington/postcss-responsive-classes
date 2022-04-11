@@ -95,3 +95,17 @@ it('works alongside postcss-custom-media', async () => {
   expect(result.css.trim()).toEqual(output.trim());
   expect(result.warnings()).toHaveLength(0);
 });
+
+it('supports a custom class naming format', async () => {
+  await run(
+    `@custom-media --sm (min-width: 780px); @responsive { .bg-tomato { background: tomato; } }`,
+    [
+      `@custom-media --sm (min-width: 780px);`,
+      `.bg-tomato { background: tomato; }`,
+      `@media (--sm){ .sm:bg-tomato { background: tomato; } }`,
+    ].join(' '),
+    {
+      className: '[breakpoint]:[class]',
+    }
+  );
+});

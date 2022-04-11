@@ -1,7 +1,15 @@
+function buildClassName(template, className, breakpoint) {
+  const classString = template
+    .replace('[class]', className.replace(/^\./, ''))
+    .replace('[breakpoint]', breakpoint);
+
+  return `.${classString}`;
+}
+
 /**
  * @type {import('postcss').PluginCreator}
  */
-module.exports = () => {
+module.exports = ({ className = '[class]\\@[breakpoint]' } = {}) => {
   const customMediaNames = [];
 
   return {
@@ -38,8 +46,8 @@ module.exports = () => {
             params: `(--${variant})`,
             nodes: rule.nodes.map(node =>
               node.clone({
-                selectors: node.selectors.map(
-                  selector => `${selector}\\@${variant}`
+                selectors: node.selectors.map(selector =>
+                  buildClassName(className, selector, variant)
                 ),
               })
             ),
