@@ -55,12 +55,10 @@
 
 ## Usage
 
-**NOTE**: This does not work, the plugin has not been published yet.
-
 **Step 1:** Install plugin:
 
 ```sh
-npm install --save-dev postcss postcss-responsive-classes
+npm install --save-dev postcss postcss-preset-env postcss-responsive-classes
 ```
 
 **Step 2:** Check you project for existed PostCSS config: `postcss.config.js`
