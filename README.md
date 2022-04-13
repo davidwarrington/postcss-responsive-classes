@@ -80,3 +80,52 @@ module.exports = {
 ```
 
 [official docs]: https://github.com/postcss/postcss#usage
+
+## Options
+
+### className
+
+The `className` option allows you to provide a template for the generated classes. Use `[class]` to represent the class extracted from your CSS file and `[breakpoint]` to represent the breakpoint name that will be generated.
+
+For example, the following configuration:
+
+```js
+postcssResponsiveClasses({
+  className: `[class]--[breakpoint]`,
+})
+```
+
+Given this input:
+
+```css
+@custom-media --sm (min-width: 780px);
+@custom-media --md (min-width: 900px);
+
+@responsive {
+  .hide {
+    display: none;
+  }
+}
+```
+
+Would generate:
+
+```css
+.hide {
+  display: none;
+}
+
+@media (min-width: 780px) {
+  .hide--sm {
+    display: none;
+  }
+}
+
+@media (min-width: 900px) {
+  .hide--md {
+    display: none;
+  }
+}
+```
+
+Default: `[breakpoint]\\:[class]`
